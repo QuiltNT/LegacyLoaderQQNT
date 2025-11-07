@@ -32,7 +32,7 @@ function deletePlugin(slug) {
         app.on("ready", () => {
             dialog.showMessageBox(null, {
                 type: "error",
-                title: "LLQQNT-unofficial",
+                title: "LegacyLoaderQQNT",
                 message: `删除插件时出错，请检查并手动删除\n${error}`
             });
         });
@@ -63,7 +63,7 @@ function InstallPlugin(slug) {
         app.on("ready", () => {
             dialog.showMessageBox(null, {
                 type: "error",
-                title: "LLQQNT-unofficial",
+                title: "LegacyLoaderQQNT",
                 message: `安装插件时报错，请检查并手动安装\n${error}`
             });
         });
@@ -93,7 +93,7 @@ function findAllPlugin(searchPath = LiteLoader.path.plugins) {
         app.on("ready", () => {
             dialog.showMessageBox(null, {
                 type: "warning",
-                title: "LLQQNT-unofficial",
+                title: "LegacyLoaderQQNT",
                 message: `在读取数据目录时报错了！请检查插件目录或忽略继续启动\n${error}`
             });
         });
@@ -157,7 +157,7 @@ function loadAllPlugin() {try{
         app.on("ready", () => {
             dialog.showMessageBox(null, {
                 type: "warning",
-                title: "LLQQNT-unofficial",
+                title: "LegacyLoaderQQNT",
                 message: `插件缺少依赖：${slug}`
             });
         });

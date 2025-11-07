@@ -1,6 +1,6 @@
 <div align="center">
 
-# LLQQNT-unofficial
+# LegacyLoaderQQNT
 ### [安装教程](./docs/install.md)
 [![](https://img.shields.io/badge/查看-计划表-green?style=flat
 )](./TODO.md)
@@ -10,7 +10,7 @@
 ---
 
 > [!WARNING]
-> LLQQNT-unofficial 并没有防封措施, 使用 LLQQNTuno 请自行承担风险
+> LegacyLoaderQQNT 并没有防封措施, 使用 LegacyLoader 请自行承担风险
 >
 > 关于封禁问题详情见 [LLQQNT 官网](https://liteloaderqqnt.github.io/guide/introduction.html#警告2)
 

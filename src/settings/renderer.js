@@ -65,7 +65,7 @@ export class SettingInterface {
         const view = this.add({
             manifest: {
                 slug: "config_view",
-                name: "LLQQNTuno",
+                name: "LegacyLoader",
                 thumb: "./src/settings/static/default.svg"
             },
             path: {
@@ -131,7 +131,7 @@ async function initVersions(view) {
     const jump_link = () => LiteLoader.api.openExternal(update_btn.value);
     const try_again = () => {
         // 初始化 显示
-        title.textContent = "正在瞅一眼 LLQQNTuno 是否有新版本";
+        title.textContent = "正在瞅一眼 LegacyLoader 是否有新版本";
         update_btn.textContent = "你先别急";
         update_btn.value = null;
         update_btn.removeEventListener("click", jump_link);
@@ -296,7 +296,7 @@ async function initPluginList(view) {
             if(!confirm(`(→_→) ? 确定删除插件 ${plugin.manifest.name} 全部数据?`))
                 return;
             if(Object.prototype.hasOwnProperty.call(LiteLoader.plugins, 'uno_api')) {
-                LLQQNTuno.api.plugin.rmdata(slug);
+                LegacyLoader.api.plugin.rmdata(slug);
                 alert(`已删除 ${plugin.manifest.name} 全部数据`);
             } else {
                 alert('xwx 请先安装 LLQQNT-uno_api !');
@@ -377,7 +377,7 @@ async function initAbout(view) {
     const github = view.querySelector(".about .github");
 
     liteloaderqqnt.addEventListener("click", () => LiteLoader.api.openExternal("https://liteloaderqqnt.github.io"));
-    github.addEventListener('click', () => LiteLoader.api.openExternal('https://github.com/LateDreamXD/LLQQNT-unofficial'))
+    github.addEventListener('click', () => LiteLoader.api.openExternal('https://github.com/LateDreamXD/LegacyLoaderQQNT'))
     view.querySelector('.about .github-upstream').addEventListener("click", () => LiteLoader.api.openExternal("https://github.com/LiteLoaderQQNT/LiteLoaderQQNT"));
     view.querySelector('.about .discord-channel').addEventListener('click', () => LiteLoader.api.openExternal('https://discord.gg/pv9NKPSsYZ'));
 

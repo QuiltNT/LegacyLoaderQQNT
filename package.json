@@ -1,23 +1,28 @@
 {
-  "name": "llqqnt-unofficial",
-  "version": "1.2.3+uno.3-pre2",
-  "description": "LiteLoaderQQNT 非官方版本，基于 LiteLoaderQQNT 二次开发，遵循上游版本的开源协议",
+  "name": "legacyloader",
+  "version": "1.0.0",
+  "description": "LegacyLoaderQQNT 是一个基于 LLQQNT-unofficial 二次开发的 QQNT 插件加载器",
   "main": "./src/init.js",
   "private": true,
   "license": "MIT",
   "author": {
-    "name": "晚梦",
-    "url": "https://about.latedream.cn"
+    "name": "QuiltNT",
+    "url": "https://github.com/QuiltNT"
   },
   "contributors": [
     {
       "name": "LiteLoaderQQNT Contributors",
       "url": "https://github.com/LiteLoaderQQNT/LiteLoaderQQNT/graphs/contributors"
+    },
+    {
+      "name": "晚梦",
+      "url": "https://about.latedream.cn",
+      "email": "xiaozhisans@qq.com"
     }
   ],
-  "bugs": "https://github.com/LateDreamXD/LLQQNT-unofficial/issues",
+  "bugs": "https://github.com/QuiltNT/LegacyLoaderQQNT/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LateDreamXD/LLQQNT-unofficial.git"
+    "url": "https://github.com/QuiltNT/LegacyLoaderQQNT.git"
   }
 }

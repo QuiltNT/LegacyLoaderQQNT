@@ -8,7 +8,7 @@
 
 [![LiteLoaderQQNT](https://img.shields.io/badge/1.0.0%2B-any?style=social&label=LiteLoaderQQNT)](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT)
 
-[![LLQQNTuno](https://img.shields.io/badge/1.2.3%2Buof.1%2B-any?style=social&logo=plugin&label=LLQQNTuno)](https://github.com/LateDreamXD/LLQQNT-unofficial)
+[![LegacyLoader](https://img.shields.io/badge/1.2.3%2Buof.1%2B-any?style=social&logo=plugin&label=LegacyLoader)](https://github.com/LateDreamXD/LegacyLoaderQQNT)
 </sup>
 
 </div>

@@ -68,7 +68,7 @@ loadEasterEggs([
                 if (click_count == 20) {
                     click_count = 0;
                     new Notification(
-                        "LLQQNT-unofficial",
+                        "LegacyLoaderQQNT",
                         {
                             body: "你咋这么急着更新？\n你就不能再等等？\n或者去催一下晚梦（",
                             requireInteraction: true
@@ -117,7 +117,7 @@ loadEasterEggs([
         hash: '#/about',
         selector: '.content .version',
         trigger: (version_text) => {
-            version_text.textContent += ' with LLQQNTuno';
+            version_text.textContent += ' with LegacyLoader';
         }
     }
 ]);
