@@ -1,5 +1,5 @@
-require("./liteloader_api/main.js");
-require("./loader_core/plugin_loader.js");
+require("./api/main.js");
+require("./core/plugin_loader.js");
 require("./main.js");
 
 const main_path = './application.asar/app_launcher/index.js';

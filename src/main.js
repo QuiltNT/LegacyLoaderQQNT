@@ -1,5 +1,5 @@
-const { MainLoader } = require("./loader_core/main.js");
-const { protocolRegister } = require("./protocol_scheme/main.js");
+const { MainLoader } = require("./core/main.js");
+const { protocolRegister } = require("./protocol/main.js");
 const path = require("path");
 
 

@@ -5,8 +5,6 @@ const fs = require("node:fs");
 
 const admZip = require("../shared/admZip.js");
 
-
-
 const output = (...args) => console.log("\x1b[32m%s\x1b[0m", "[LiteLoader]", ...args);
 const config = LiteLoader.api.config.get("LiteLoader", default_config);
 
