@@ -1,3 +1,7 @@
+const { pathToFileURL } = require("url");
+
+const error = (...args) => console.error("\x1b[32m%s\x1b[0m", "[LiteLoader]", ...args);
+
 function topologicalSort(dependencies) {
     const sorted = [];
     const visited = new Set();
@@ -25,11 +29,22 @@ exports.MainLoader = class {
                 continue;
             }
             if (plugin.path.injects.main) {
-                try {
-                    this.#exports[slug] = require(plugin.path.injects.main);
-                }
-                catch (e) {
-                    plugin.error = { message: `[Main] ${e.message}`, stack: e.stack };
+                if (plugin.manifest.esm) {
+                    this.#exports[slug] = {};
+                    // FIXME: Async and delayed loading might cause errors for dependencies
+                    import(pathToFileURL(plugin.path.injects.main)).then((exported) => {
+                        this.#exports[slug] = exported;
+                    }).catch((e) => {
+                        error(`Error loading ${plugin.manifest.name}:`, e);
+                        plugin.error = { message: `[Main] ${e.message}`, stack: e.stack };
+                    });
+                } else {
+                    try {
+                        this.#exports[slug] = require(plugin.path.injects.main);
+                    } catch (e) {
+                        error(`Error loading ${plugin.manifest.name}:`, e);
+                        plugin.error = { message: `[Main] ${e.message}`, stack: e.stack };
+                    }
                 }
             }
         }
