@@ -1,8 +1,8 @@
 {
   "name": "legacyloader",
   "version": "1.0.0",
-  "description": "LegacyLoaderQQNT 是一个基于 LLQQNT-unofficial 二次开发的 QQNT 插件加载器",
-  "main": "./src/init.js",
+  "description": "LegacyLoaderQQNT 是一个基于 LiteLoaderQQNT 非官方版二次开发的 QQNT 插件加载器",
+  "main": "./src/main.js",
   "private": true,
   "license": "MIT",
   "author": {
