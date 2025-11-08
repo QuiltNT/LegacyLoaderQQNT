@@ -22,10 +22,6 @@ const data_path = path.join(profile_path, "data");
 const plugins_path = path.join(profile_path, "plugins");
 const liteloader_package = require(path.join(root_path, "package.json"));
 const qqnt_package = require(path.join(process.resourcesPath, "app/package.json"))
-const qqnt_version = (() => {
-    const config_filepath = path.join(process.resourcesPath, "app/versions/config.json");
-    return fs.existsSync(config_filepath) ? require(config_filepath) : qqnt_package;
-})();
 
 
 function setConfig(slug, new_config) {
@@ -128,8 +124,8 @@ const LiteLoader = {
         plugins: plugins_path
     },
     versions: {
-        qqnt: qqnt_version.curVersion ?? qqnt_version.version,
-        liteloader: liteloader_package.version,
+        qqnt: qqnt_package.version,
+        liteloader: '1.3.0-legacyloader_compat',
         node: process.versions.node,
         chrome: process.versions.chrome,
         electron: process.versions.electron
