@@ -8,6 +8,20 @@ const admZip = require("../shared/admZip.js");
 const output = (...args) => console.log("\x1b[32m%s\x1b[0m", "[LiteLoader]", ...args);
 const config = LiteLoader.api.config.get("LiteLoader", default_config);
 
+function showErrorDialog(title, message) {
+    const showDialog = () => {
+        dialog.showMessageBox(null, {
+            type: "error",
+            title: "LegacyLoaderQQNT",
+            message: `${title}\n${message}`
+        });
+    };
+    if (app.isReady()) {
+        showDialog();
+    } else {
+        app.once("ready", showDialog);
+    }
+}
 
 function deletePlugin(slug) {
     try {
@@ -17,13 +31,7 @@ function deletePlugin(slug) {
     }
     catch (error) {
         output("Deleting Plugin Error", error);
-        app.on("ready", () => {
-            dialog.showMessageBox(null, {
-                type: "error",
-                title: "LegacyLoaderQQNT",
-                message: `删除插件时出错，请检查并手动删除\n${error}`
-            });
-        });
+        showErrorDialog("删除插件时出错", `请检查并手动删除插件\n${error}`);
     }
     finally {
         delete config.deleting_plugins[slug];
@@ -48,13 +56,7 @@ function InstallPlugin(slug) {
     }
     catch (error) {
         output("Installing Plugin Error", error);
-        app.on("ready", () => {
-            dialog.showMessageBox(null, {
-                type: "error",
-                title: "LegacyLoaderQQNT",
-                message: `安装插件时报错，请检查并手动安装\n${error}`
-            });
-        });
+        showErrorDialog("安装插件时出错", `请检查并手动安装插件\n${error}`);
     }
     finally {
         delete config.installing_plugins[slug];
@@ -78,13 +80,7 @@ function findAllPlugin(searchPath = LiteLoader.path.plugins) {
     }
     catch (error) {
         output("Find Plugin Error", error);
-        app.on("ready", () => {
-            dialog.showMessageBox(null, {
-                type: "warning",
-                title: "LegacyLoaderQQNT",
-                message: `在读取数据目录时报错了！请检查插件目录或忽略继续启动\n${error}`
-            });
-        });
+        showErrorDialog("读取插件目录时出错", `请检查插件目录或忽略继续启动\n${error}`);
     }
     return plugins;
 }
@@ -117,29 +113,21 @@ function getPluginInfo(pathname, manifest, isBuiltin = false) {
 }
 
 
-function loadAllPlugin() {try{
-    const user_plugins = findAllPlugin();
-    const plugins = builtin_plugins.concat(user_plugins);
+function loadAllPlugin() {
+    const plugins = findAllPlugin();
     const dependencies = new Set();
-    for (const { pathname, manifest, isBuiltin } of plugins) {
-        output("Found Plugin:", manifest.name, isBuiltin? '(builtin)': '(user)');
-        LiteLoader.plugins[manifest.slug] = getPluginInfo(pathname, manifest,
-            !!isBuiltin);
+    for (const { pathname, manifest} of plugins) {
+        output("Found Plugin:", manifest.name);
+        LiteLoader.plugins[manifest.slug] = getPluginInfo(pathname, manifest);
         manifest.dependencies?.forEach?.(slug => dependencies.add(slug));
     }
     const slugs = plugins.map(plugin => plugin.manifest.slug);
     const missing = [...dependencies].filter(slug => !slugs.includes(slug));
     for (const slug of missing) {
         output("Missing Dep:", slug);
-        app.on("ready", () => {
-            dialog.showMessageBox(null, {
-                type: "warning",
-                title: "LegacyLoaderQQNT",
-                message: `插件缺少依赖：${slug}`
-            });
-        });
+        showErrorDialog("插件缺少依赖", `插件 ${slug} 缺少依赖`);
     }
-}catch(e){output(e)}}
+}
 
 
 // 删除插件
