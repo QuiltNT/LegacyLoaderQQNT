@@ -1,9 +1,0 @@
-{
-	"general": {
-		"prevent_beacon_report": false
-	},
-	"experimental": {
-		"enable_plugin_hotload": false,
-		"enable_plugin_install": false
-	}
-}

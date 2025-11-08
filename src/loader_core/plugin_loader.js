@@ -101,21 +101,11 @@ function findAllPlugin(searchPath = LiteLoader.path.plugins) {
     return plugins;
 }
 
-function findAllBuiltinPlugin() {
-    return findAllPlugin(path.join(LiteLoader.path.root, 'src/builtin_plugins/')).map(plugin => {
-        plugin.isBuiltin = true;
-        return plugin;
-    });
-}
-
 
 function getPluginInfo(pathname, manifest, isBuiltin = false) {
     const incompatible_platform = !manifest.platform.includes(LiteLoader.os.platform);
     const disabled_plugin = config.disabled_plugins.includes(manifest.slug);
-    const plugin_path = path.join(
-        isBuiltin? [LiteLoader.path.root, 'src/builtin_plugins/'].join(path.sep):
-        LiteLoader.path.plugins, pathname
-    );
+    const plugin_path = path.join(LiteLoader.path.plugins, pathname);
     const data_path = path.join(LiteLoader.path.data, manifest.slug);
     const main_file = path.join(plugin_path, manifest?.injects?.main ?? "");
     const preload_file = path.join(plugin_path, manifest?.injects?.preload ?? "");
@@ -140,7 +130,6 @@ function getPluginInfo(pathname, manifest, isBuiltin = false) {
 
 
 function loadAllPlugin() {try{
-    const builtin_plugins = findAllBuiltinPlugin();
     const user_plugins = findAllPlugin();
     const plugins = builtin_plugins.concat(user_plugins);
     const dependencies = new Set();
