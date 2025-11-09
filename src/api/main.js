@@ -161,12 +161,24 @@ try {
     whitelist.add(fs.realpathSync(LegacyLoader.path.data));
 } catch { };
 whitelist.forEach(item => whitelist.add(item.replace(/\\\\/g, "/")));
-Object.defineProperty(globalThis, "LegacyLoader", {
-    configurable: false,
-    get() {
-        const stack = new Error().stack.split("\n")[2];
-        if (whitelist.values().some(item => stack.includes(item))) {
-            return LegacyLoader;
+Object.defineProperties(globalThis, {
+    "LegacyLoader": {
+        configurable: false,
+        get() {
+            const stack = new Error().stack.split("\n")[2];
+            if (whitelist.values().some(item => stack.includes(item))) {
+                return LegacyLoader;
+            }
+        }
+    },
+    // 兼容 LiteLoader 插件
+    "LiteLoader": {
+        configurable: false,
+        get() {
+            const stack = new Error().stack.split("\n")[2];
+            if (whitelist.values().some(item => stack.includes(item))) {
+                return LegacyLoader;
+            }
         }
     }
 });
