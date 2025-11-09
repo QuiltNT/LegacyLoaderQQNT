@@ -1,4 +1,4 @@
-import default_config from "./static/config.json" with {type: "json"};
+import default_config from "../shared/config.json" with {type: "json"};
 
 
 export function initView(view, html) {

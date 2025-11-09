@@ -1,4 +1,4 @@
-const default_config = require("../settings/static/config.json");
+const default_config = require("../shared/config.json");
 const { app, dialog } = require("electron");
 const path = require("node:path");
 const fs = require("node:fs");
