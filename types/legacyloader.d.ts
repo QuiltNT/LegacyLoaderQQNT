@@ -1,10 +1,10 @@
+/// <reference path="electron.d.ts" />
+
 import legacyloader_package from '../package.json';
 import LiteLoaderPackage from './packages/liteloader_compat';
 import QQNTPackage from './packages/qqnt';
 
 import PluginManifest from './plugin_manifest';
-
-/// <reference types="electron.d.ts" />
 
 interface LegacyLoader {
 	path: {
