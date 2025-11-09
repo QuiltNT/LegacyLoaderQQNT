@@ -137,7 +137,7 @@ async function initPluginList(view) {
         }
 
         const default_icon = `local://root/src/settings/static/default.png`;
-        const plugin_icon = `local:///${plugin.path.plugin}/${plugin.manifest?.icon}`;
+        const plugin_icon = await appropriateIcon(`local:///${plugin.path.plugin}/${plugin.manifest?.icon}`);
         const icon = plugin.manifest?.icon ? plugin_icon : default_icon;
 
         const plugin_list = plugin_lists[plugin.manifest.type] || plugin_lists.extension;
