@@ -40,31 +40,31 @@ async function initVersions(view) {
     const chromium = view.querySelectorAll(".versions .current .chromium setting-text");
     const nodejs = view.querySelectorAll(".versions .current .nodejs setting-text");
 
-    liteloader[1].textContent = LiteLoader.versions.liteloader;
-    qqnt[1].textContent = LiteLoader.versions.qqnt;
-    electron[1].textContent = LiteLoader.versions.electron;
-    chromium[1].textContent = LiteLoader.versions.chrome;
-    nodejs[1].textContent = LiteLoader.versions.node;
+    liteloader[1].textContent = LegacyLoader.versions.liteloader;
+    qqnt[1].textContent = LegacyLoader.versions.qqnt;
+    electron[1].textContent = LegacyLoader.versions.electron;
+    chromium[1].textContent = LegacyLoader.versions.chrome;
+    nodejs[1].textContent = LegacyLoader.versions.node;
 
     const title = view.querySelector(".versions .new setting-text");
     const update_btn = view.querySelector(".versions .new setting-button");
 
-    const jump_link = () => LiteLoader.api.openExternal(update_btn.value);
+    const jump_link = () => LegacyLoader.api.openExternal(update_btn.value);
     const try_again = () => {
         // 初始化 显示
-        title.textContent = "正在瞅一眼 LiteLoaderQQNT 是否有新版本";
+        title.textContent = "正在瞅一眼 LegacyLoaderQQNT 是否有新版本";
         update_btn.textContent = "你先别急";
         update_btn.value = null;
         update_btn.removeEventListener("click", jump_link);
         update_btn.removeEventListener("click", try_again);
         // 检测是否有新版
-        const repo_url = LiteLoader.package.liteloader.repository.url;
+        const repo_url = LegacyLoader.package.liteloader.repository.url;
         const release_latest_url = `${repo_url.slice(0, repo_url.lastIndexOf(".git"))}/releases/latest`;
         fetch(release_latest_url).then((res) => {
             const new_version = res.url.slice(res.url.lastIndexOf("/") + 1);
             // 有新版
-            if (compareVersions(LiteLoader.versions.liteloader, new_version)) {
-                title.textContent = `发现 LiteLoaderQQNT 新版本 ${new_version}`;
+            if (compareVersions(LegacyLoader.versions.liteloader, new_version)) {
+                title.textContent = `发现 LegacyLoaderQQNT 新版本 ${new_version}`;
                 update_btn.textContent = "去瞅一眼";
                 update_btn.value = res.url;
                 update_btn.removeEventListener("click", try_again);
@@ -72,7 +72,7 @@ async function initVersions(view) {
             }
             // 没新版
             else {
-                title.textContent = "暂未发现 LiteLoaderQQNT 有新版本，目前已是最新";
+                title.textContent = "暂未发现 LegacyLoaderQQNT 有新版本，目前已是最新";
                 update_btn.textContent = "重新发现";
                 update_btn.value = null;
                 update_btn.removeEventListener("click", jump_link);
@@ -106,21 +106,21 @@ async function initPluginList(view) {
     input_file.accept = ".zip,.json";
     input_file.addEventListener("change", async () => {
         const filepath = input_file.files?.[0]?.path;
-        const config = await LiteLoader.api.config.get("LiteLoader", default_config);
+        const config = await LegacyLoader.api.config.get("LegacyLoader", default_config);
         const has_install = Object.values(config.installing_plugins).some(item => item.plugin_path == filepath);
-        const is_install = await LiteLoader.api.plugin.install(filepath, has_install);
+        const is_install = await LegacyLoader.api.plugin.install(filepath, has_install);
         alert(is_install ? (has_install ? "已取消安装此插件" : "将在下次启动时安装") : "无法安装无效插件");
         input_file.value = null;
     });
     plugin_install_button.addEventListener("click", () => input_file.click());
 
-    const config = await LiteLoader.api.config.get("LiteLoader", default_config);
+    const config = await LegacyLoader.api.config.get("LegacyLoader", default_config);
     plugin_loader_switch.setActive(config.enable_plugins);
     plugin_loader_switch.addEventListener("click", () => {
         const isActive = plugin_loader_switch.getActive();
         plugin_loader_switch.setActive(!isActive);
         config.enable_plugins = !isActive;
-        LiteLoader.api.config.set("LiteLoader", config);
+        LegacyLoader.api.config.set("LegacyLoader", config);
     });
 
     const plugin_counts = {
@@ -130,7 +130,7 @@ async function initPluginList(view) {
         total: [0, 0]
     }
 
-    for (const [slug, plugin] of Object.entries(LiteLoader.plugins)) {
+    for (const [slug, plugin] of Object.entries(LegacyLoader.plugins)) {
         // 跳过不兼容插件
         if (plugin.incompatible) {
             continue;
@@ -194,7 +194,7 @@ async function initPluginList(view) {
             const isActive = manager_modal_enable.getActive();
             manager_modal_enable.setActive(!isActive);
             plugin_item.classList.toggle("disabled", isActive);
-            LiteLoader.api.plugin.disable(slug, !isActive);
+            LegacyLoader.api.plugin.disable(slug, !isActive);
         });
         plugin_item.classList.toggle("disabled", !manager_modal_enable.getActive());
 
@@ -203,8 +203,8 @@ async function initPluginList(view) {
             const isActive = manager_modal_keepdata.getActive();
             manager_modal_keepdata.setActive(!isActive);
             plugin_item.classList.toggle("deleted", !isActive);
-            const config = await LiteLoader.api.config.get("LiteLoader", default_config);
-            if (slug in config.deleting_plugins) LiteLoader.api.plugin.delete(slug, !isActive, false);
+            const config = await LegacyLoader.api.config.get("LegacyLoader", default_config);
+            if (slug in config.deleting_plugins) LegacyLoader.api.plugin.delete(slug, !isActive, false);
         });
         plugin_item.classList.toggle("deleted", manager_modal_keepdata.getActive());
 
@@ -214,7 +214,7 @@ async function initPluginList(view) {
             manager_modal_uninstall.setActive(!isActive);
             plugin_item.classList.toggle("deleted", !isActive);
             const keepdata = manager_modal_keepdata.getActive();
-            LiteLoader.api.plugin.delete(slug, keepdata, isActive);
+            LegacyLoader.api.plugin.delete(slug, keepdata, isActive);
         });
         plugin_item.classList.toggle("deleted", manager_modal_uninstall.getActive());
 
@@ -238,10 +238,10 @@ async function initPath(view) {
     const profile_path_content = view.querySelectorAll(".path .profile setting-text")[2];
     const profile_path_button = view.querySelector(".path .profile setting-button");
 
-    root_path_content.textContent = LiteLoader.path.root;
-    root_path_button.addEventListener("click", () => LiteLoader.api.openPath(LiteLoader.path.root));
-    profile_path_content.textContent = LiteLoader.path.profile;
-    profile_path_button.addEventListener("click", () => LiteLoader.api.openPath(LiteLoader.path.profile));
+    root_path_content.textContent = LegacyLoader.path.root;
+    root_path_button.addEventListener("click", () => LegacyLoader.api.openPath(LegacyLoader.path.root));
+    profile_path_content.textContent = LegacyLoader.path.profile;
+    profile_path_button.addEventListener("click", () => LegacyLoader.api.openPath(LegacyLoader.path.profile));
 }
 
 
@@ -249,10 +249,10 @@ async function initAbout(view) {
     const liteloaderqqnt = view.querySelector(".about .liteloaderqqnt");
     const github = view.querySelector(".about .github");
 
-    liteloaderqqnt.addEventListener("click", () => LiteLoader.api.openExternal("https://liteloaderqqnt.github.io"));
-    github.addEventListener('click', () => LiteLoader.api.openExternal('https://github.com/LateDreamXD/LegacyLoaderQQNT'))
-    view.querySelector('.about .github-upstream').addEventListener("click", () => LiteLoader.api.openExternal("https://github.com/LiteLoaderQQNT/LiteLoaderQQNT"));
-    view.querySelector('.about .discord-channel').addEventListener('click', () => LiteLoader.api.openExternal('https://discord.gg/pv9NKPSsYZ'));
+    liteloaderqqnt.addEventListener("click", () => LegacyLoader.api.openExternal("https://liteloaderqqnt.github.io"));
+    github.addEventListener('click', () => LegacyLoader.api.openExternal('https://github.com/LateDreamXD/LegacyLoaderQQNT'))
+    view.querySelector('.about .github-upstream').addEventListener("click", () => LegacyLoader.api.openExternal("https://github.com/LegacyLoaderQQNT/LegacyLoaderQQNT"));
+    view.querySelector('.about .discord-channel').addEventListener('click', () => LegacyLoader.api.openExternal('https://discord.gg/pv9NKPSsYZ'));
 
     // Hitokoto - 一言
     let visible = true;

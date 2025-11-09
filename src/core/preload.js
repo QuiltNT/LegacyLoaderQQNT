@@ -7,7 +7,7 @@ function topologicalSort(dependencies) {
     const visit = (slug) => {
         if (visited.has(slug)) return;
         visited.add(slug);
-        const plugin = LiteLoader.plugins[slug];
+        const plugin = LegacyLoader.plugins[slug];
         plugin.manifest.dependencies?.forEach(depSlug => visit(depSlug));
         sorted.push(slug);
     }
@@ -20,8 +20,8 @@ function topologicalSort(dependencies) {
 
     async init() {
         const preloadErrors = {}
-        for (const slug of topologicalSort(Object.keys(LiteLoader.plugins))) {
-            const plugin = LiteLoader.plugins[slug];
+        for (const slug of topologicalSort(Object.keys(LegacyLoader.plugins))) {
+            const plugin = LegacyLoader.plugins[slug];
             if (plugin.disabled || plugin.incompatible || plugin.error) {
                 continue;
             }
@@ -34,7 +34,7 @@ function topologicalSort(dependencies) {
                 }
             }
         }
-        contextBridge.exposeInMainWorld("LiteLoaderPreloadErrors", preloadErrors);
+        contextBridge.exposeInMainWorld("LegacyLoaderPreloadErrors", preloadErrors);
         return this;
     }
 

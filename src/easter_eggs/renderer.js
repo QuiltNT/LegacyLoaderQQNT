@@ -103,7 +103,7 @@ loadEasterEggs([
             const search_input = contact_topbar.querySelector("input");
             menu_item.addEventListener("click", () => {
                 const random_image = images_apis[Math.floor(Math.random() * images_apis.length)];
-                LiteLoader.api.openExternal(random_image);
+                LegacyLoader.api.openExternal(random_image);
             });
             adder_button.addEventListener("click", () => {
                 if (search_input.value.toLowerCase() == search_word) {

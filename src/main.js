@@ -28,7 +28,7 @@ function proxyBrowserWindowConstruct(target, argArray, newTarget) {
         apply(target, thisArg, argArray) {
             return [
                 ...Reflect.apply(target, thisArg, argArray),
-                path.join(LiteLoader.path.root, "src/preload.js")
+                path.join(LegacyLoader.path.root, "src/preload.js")
             ];
         }
     });

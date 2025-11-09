@@ -6,7 +6,7 @@ export class Link extends BaseElement {
         super();
         this.addEventListener("click", () => {
             if (this.getValue()) {
-                LiteLoader.api.openExternal(this.getValue());
+                LegacyLoader.api.openExternal(this.getValue());
             }
         });
     }

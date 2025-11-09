@@ -1,0 +1,21 @@
+{
+  "name": "@llqqntuno/legacyloader-types",
+  "version": "1.0.0",
+  "description": "LegacyLoaderQQNT 类型定义",
+  "main": "legacyloader.d.ts",
+  "types": "legacyloader.d.ts",
+  "license": "MIT",
+  "author": {
+    "name": "QuiltNT",
+    "url": "https://github.com/QuiltNT"
+  },
+  "homepage": "https://github.com/QuiltNT/LegacyLoaderQQNT/blob/main/types/readme.md",
+  "bugs": {
+    "url": "https://github.com/QuiltNT/LegacyLoaderQQNT/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QuiltNT/LegacyLoaderQQNT.git",
+    "directory": "types"
+  }
+}

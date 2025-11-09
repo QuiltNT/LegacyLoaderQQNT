@@ -65,11 +65,11 @@ export class SettingInterface {
         const view = this.add({
             manifest: {
                 slug: "config_view",
-                name: "LiteLoaderQQNT",
+                name: "LegacyLoaderQQNT",
                 thumb: "./src/settings/static/default.svg"
             },
             path: {
-                plugin: LiteLoader.path.root
+                plugin: LegacyLoader.path.root
             }
         });
         fetch("local://root/src/settings/static/view.html").then(async res => initView(view, await res.text()));
@@ -87,10 +87,10 @@ export class SettingInterface {
             🐞 错误信息
             <textarea readonly rows="8">${error.message}\n${error.stack}</textarea>
             🧩 插件信息
-            <textarea readonly rows="12">${JSON.stringify(LiteLoader.plugins[slug])}</textarea>
-            <textarea readonly rows="3">${JSON.stringify(Object.keys(LiteLoader.plugins))}</textarea>
+            <textarea readonly rows="12">${JSON.stringify(LegacyLoader.plugins[slug])}</textarea>
+            <textarea readonly rows="3">${JSON.stringify(Object.keys(LegacyLoader.plugins))}</textarea>
             🖥️ 环境信息
-            <textarea readonly rows="3">${JSON.stringify({ ...LiteLoader.versions, ...LiteLoader.os })}</textarea>
+            <textarea readonly rows="3">${JSON.stringify({ ...LegacyLoader.versions, ...LegacyLoader.os })}</textarea>
             <small>* 此页面仅在插件加载出现问题出现，不代表插件本身有设置页</small>`; // 没必要格式化json，方便截图
     }
 }

@@ -4,7 +4,7 @@ function topologicalSort(dependencies) {
     const visit = (slug) => {
         if (visited.has(slug)) return;
         visited.add(slug);
-        const plugin = LiteLoader.plugins[slug];
+        const plugin = LegacyLoader.plugins[slug];
         plugin.manifest.dependencies?.forEach(depSlug => visit(depSlug));
         sorted.push(slug);
     }
@@ -19,19 +19,19 @@ export class RendererLoader {
 
     async init() {
         // 确保preload加载完毕
-        if (!window.LiteLoaderPreloadErrors) {
+        if (!window.LegacyLoaderPreloadErrors) {
             await new Promise(resolve => {
-                const check = () => (window.LiteLoaderPreloadErrors ? resolve() : setTimeout(check));
+                const check = () => (window.LegacyLoaderPreloadErrors ? resolve() : setTimeout(check));
                 check();
             });
         }
         // 加载插件
-        for (const slug of topologicalSort(Object.keys(LiteLoader.plugins))) {
-            const plugin = LiteLoader.plugins[slug];
+        for (const slug of topologicalSort(Object.keys(LegacyLoader.plugins))) {
+            const plugin = LegacyLoader.plugins[slug];
             if (plugin.disabled || plugin.incompatible) {
                 continue;
             }
-            const error = plugin.error || LiteLoaderPreloadErrors[slug];
+            const error = plugin.error || LegacyLoaderPreloadErrors[slug];
             if (error) {
                 this.#exports[slug] = { error };
                 continue
@@ -53,10 +53,10 @@ export class RendererLoader {
             const plugin = this.#exports[slug];
             try {
                 if (plugin.error) throw plugin.error;
-                plugin.onSettingWindowCreated?.(settingInterface.add(LiteLoader.plugins[slug]));
+                plugin.onSettingWindowCreated?.(settingInterface.add(LegacyLoader.plugins[slug]));
             }
             catch (e) {
-                const view = settingInterface.add(LiteLoader.plugins[slug]);
+                const view = settingInterface.add(LegacyLoader.plugins[slug]);
                 settingInterface.createErrorView(e, slug, view);
             }
         }

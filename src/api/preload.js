@@ -2,14 +2,15 @@ const { ipcRenderer, contextBridge } = require("electron");
 
 
 function invokeAPI(name, method, args) {
-    return ipcRenderer.invoke("LiteLoader.LiteLoader.api", name, method, args);
+    return ipcRenderer.invoke("LegacyLoader.LegacyLoader.api", name, method, args);
 }
 
 
-// LiteLoader
-Object.defineProperty(globalThis, "LiteLoader", {
+// LegacyLoader
+/** @type {import('../../types/legacyloader').LegacyLoaderRenderer} LegacyLoader */
+const LegacyLoader = {
     value: {
-        ...ipcRenderer.sendSync("LiteLoader.LiteLoader.LiteLoader"),
+        ...ipcRenderer.sendSync("LegacyLoader.LegacyLoader.LegacyLoader"),
         api: {
             config: {
                 get: (...args) => invokeAPI("config", "get", args),
@@ -24,6 +25,10 @@ Object.defineProperty(globalThis, "LiteLoader", {
             openPath: (...args) => invokeAPI("openPath", "openPath", args)
         }
     }
+};
+Object.defineProperty(globalThis, "LegacyLoader", {
+    configurable: false,
+    value: LegacyLoader
 });
 
-contextBridge.exposeInMainWorld("LiteLoader", LiteLoader);
+contextBridge.exposeInMainWorld("LegacyLoader", LegacyLoader);

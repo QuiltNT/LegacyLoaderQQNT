@@ -10,7 +10,8 @@ const root_path = path.join(__dirname, "..", "..");
 const profile_path = process.env.LITELOADERQQNT_PROFILE ?? root_path;
 const data_path = path.join(profile_path, "data");
 const plugins_path = path.join(profile_path, "plugins");
-const liteloader_package = require(path.join(root_path, "package.json"));
+const legacyloader_package = require(path.join(root_path, "package.json"));
+const liteloader_package = require(path.join(root_path, "src/api/liteloader_package_compat.json"));
 const qqnt_package = require(path.join(process.resourcesPath, "app/package.json"))
 
 
@@ -52,14 +53,14 @@ function pluginInstall(plugin_path, undone = false) {
                 for (const entry of plugin_zip.getEntries()) {
                     if (entry.entryName == "manifest.json" && !entry.isDirectory) {
                         const { slug } = JSON.parse(entry.getData());
-                        if (slug in LiteLoader.plugins) LiteLoader.api.plugin.delete(slug, false, false);
-                        const config = LiteLoader.api.config.get("LiteLoader", default_config);
+                        if (slug in LegacyLoader.plugins) LegacyLoader.api.plugin.delete(slug, false, false);
+                        const config = LegacyLoader.api.config.get("LegacyLoader", default_config);
                         if (undone) delete config.installing_plugins[slug];
                         else config.installing_plugins[slug] = {
                             plugin_path: plugin_path,
                             plugin_type: "zip"
                         };
-                        LiteLoader.api.config.set("LiteLoader", config);
+                        LegacyLoader.api.config.set("LegacyLoader", config);
                         return true;
                     }
                 }
@@ -67,14 +68,14 @@ function pluginInstall(plugin_path, undone = false) {
             // 通过 manifest.json 文件安装插件
             if (path.basename(plugin_path) == "manifest.json") {
                 const { slug } = JSON.parse(fs.readFileSync(plugin_path));
-                if (slug in LiteLoader.plugins) LiteLoader.api.plugin.delete(slug, false, false);
-                const config = LiteLoader.api.config.get("LiteLoader", default_config);
+                if (slug in LegacyLoader.plugins) LegacyLoader.api.plugin.delete(slug, false, false);
+                const config = LegacyLoader.api.config.get("LegacyLoader", default_config);
                 if (undone) delete config.installing_plugins[slug];
                 else config.installing_plugins[slug] = {
                     plugin_path: plugin_path,
                     plugin_type: "json"
                 };
-                LiteLoader.api.config.set("LiteLoader", config);
+                LegacyLoader.api.config.set("LegacyLoader", config);
                 return true;
             }
         }
@@ -86,27 +87,27 @@ function pluginInstall(plugin_path, undone = false) {
 
 
 function pluginDelete(slug, delete_data = false, undone = false) {
-    if (!(slug in LiteLoader.plugins)) return true;
-    const { plugin, data } = LiteLoader.plugins[slug].path;
-    const config = LiteLoader.api.config.get("LiteLoader", default_config);
+    if (!(slug in LegacyLoader.plugins)) return true;
+    const { plugin, data } = LegacyLoader.plugins[slug].path;
+    const config = LegacyLoader.api.config.get("LegacyLoader", default_config);
     if (undone) delete config.deleting_plugins[slug];
     else config.deleting_plugins[slug] = {
         plugin_path: plugin,
         data_path: delete_data ? data : null
     };
-    LiteLoader.api.config.set("LiteLoader", config);
+    LegacyLoader.api.config.set("LegacyLoader", config);
 }
 
 
 function pluginDisable(slug, undone = false) {
-    const config = LiteLoader.api.config.get("LiteLoader", default_config);
+    const config = LegacyLoader.api.config.get("LegacyLoader", default_config);
     if (undone) config.disabled_plugins = config.disabled_plugins.filter(item => item != slug);
     else config.disabled_plugins = config.disabled_plugins.concat(slug);
-    LiteLoader.api.config.set("LiteLoader", config);
+    LegacyLoader.api.config.set("LegacyLoader", config);
 }
 
-
-const LiteLoader = {
+/** @type {import('../../types').LegacyLoaderMain} */
+const LegacyLoader = {
     path: {
         root: root_path,
         profile: profile_path,
@@ -115,6 +116,7 @@ const LiteLoader = {
     },
     versions: {
         qqnt: qqnt_package.version,
+        legacyloader: legacyloader_package.version,
         liteloader: '1.3.0-legacyloader_compat',
         node: process.versions.node,
         chrome: process.versions.chrome,
@@ -124,6 +126,7 @@ const LiteLoader = {
         platform: process.platform
     },
     package: {
+        legacyloader: legacyloader_package,
         liteloader: liteloader_package,
         qqnt: qqnt_package
     },
@@ -144,44 +147,44 @@ const LiteLoader = {
 };
 
 
-// 将LiteLoader对象挂载到全局
+// 将LegacyLoader对象挂载到全局
 const whitelist = new Set([
-    LiteLoader.path.root,
-    LiteLoader.path.profile,
-    LiteLoader.path.data,
-    LiteLoader.path.plugins,
+    LegacyLoader.path.root,
+    LegacyLoader.path.profile,
+    LegacyLoader.path.data,
+    LegacyLoader.path.plugins,
 ]);
 try {
-    whitelist.add(fs.realpathSync(LiteLoader.path.root));
-    whitelist.add(fs.realpathSync(LiteLoader.path.profile));
-    whitelist.add(fs.realpathSync(LiteLoader.path.plugins));
-    whitelist.add(fs.realpathSync(LiteLoader.path.data));
+    whitelist.add(fs.realpathSync(LegacyLoader.path.root));
+    whitelist.add(fs.realpathSync(LegacyLoader.path.profile));
+    whitelist.add(fs.realpathSync(LegacyLoader.path.plugins));
+    whitelist.add(fs.realpathSync(LegacyLoader.path.data));
 } catch { };
 whitelist.forEach(item => whitelist.add(item.replace(/\\\\/g, "/")));
-Object.defineProperty(globalThis, "LiteLoader", {
+Object.defineProperty(globalThis, "LegacyLoader", {
     configurable: false,
     get() {
         const stack = new Error().stack.split("\n")[2];
         if (whitelist.values().some(item => stack.includes(item))) {
-            return LiteLoader;
+            return LegacyLoader;
         }
     }
 });
 
 
-// 将LiteLoader对象挂载到window
-ipcMain.on("LiteLoader.LiteLoader.LiteLoader", (event) => {
+// 将LegacyLoader对象挂载到window
+ipcMain.on("LegacyLoader.LegacyLoader.LegacyLoader", (event) => {
     event.returnValue = {
-        ...LiteLoader,
+        ...LegacyLoader,
         api: void null
     }
 });
 
 
-ipcMain.handle("LiteLoader.LiteLoader.api", (event, name, method, args) => {
+ipcMain.handle("LegacyLoader.LegacyLoader.api", (event, name, method, args) => {
     try {
-        if (name == method) return LiteLoader.api[method](...args);
-        else return LiteLoader.api[name][method](...args);
+        if (name == method) return LegacyLoader.api[method](...args);
+        else return LegacyLoader.api[name][method](...args);
     } catch (error) {
         return null;
     }

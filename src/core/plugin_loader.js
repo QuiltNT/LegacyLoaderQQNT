@@ -5,8 +5,8 @@ const fs = require("node:fs");
 
 const admZip = require("../shared/admZip.js");
 
-const output = (...args) => console.log("\x1b[32m%s\x1b[0m", "[LiteLoader]", ...args);
-const config = LiteLoader.api.config.get("LiteLoader", default_config);
+const output = (...args) => console.log("\x1b[32m%s\x1b[0m", "[LegacyLoader]", ...args);
+const config = LegacyLoader.api.config.get("LegacyLoader", default_config);
 
 function showErrorDialog(title, message) {
     const showDialog = () => {
@@ -35,7 +35,7 @@ function deletePlugin(slug) {
     }
     finally {
         delete config.deleting_plugins[slug];
-        LiteLoader.api.config.set("LiteLoader", config);
+        LegacyLoader.api.config.set("LegacyLoader", config);
     }
 }
 
@@ -43,7 +43,7 @@ function deletePlugin(slug) {
 function InstallPlugin(slug) {
     try {
         const { plugin_path, plugin_type } = config.installing_plugins[slug];
-        const dest_path = path.join(LiteLoader.path.plugins, slug);
+        const dest_path = path.join(LegacyLoader.path.plugins, slug);
         if (fs.existsSync(dest_path)) {
             fs.renameSync(dest_path, `${dest_path}_${parseInt(Math.random() * 100000)} `);
         }
@@ -60,12 +60,12 @@ function InstallPlugin(slug) {
     }
     finally {
         delete config.installing_plugins[slug];
-        LiteLoader.api.config.set("LiteLoader", config);
+        LegacyLoader.api.config.set("LegacyLoader", config);
     }
 }
 
 
-function findAllPlugin(searchPath = LiteLoader.path.plugins) {
+function findAllPlugin(searchPath = LegacyLoader.path.plugins) {
     const plugins = [];
     try {
         fs.mkdirSync(searchPath, { recursive: true });
@@ -87,10 +87,10 @@ function findAllPlugin(searchPath = LiteLoader.path.plugins) {
 
 
 function getPluginInfo(pathname, manifest, isBuiltin = false) {
-    const incompatible_platform = !manifest.platform.includes(LiteLoader.os.platform);
+    const incompatible_platform = !manifest.platform.includes(LegacyLoader.os.platform);
     const disabled_plugin = config.disabled_plugins.includes(manifest.slug);
-    const plugin_path = path.join(LiteLoader.path.plugins, pathname);
-    const data_path = path.join(LiteLoader.path.data, manifest.slug);
+    const plugin_path = path.join(LegacyLoader.path.plugins, pathname);
+    const data_path = path.join(LegacyLoader.path.data, manifest.slug);
     const main_file = path.join(plugin_path, manifest?.injects?.main ?? "");
     const preload_file = path.join(plugin_path, manifest?.injects?.preload ?? "");
     const renderer_file = path.join(plugin_path, manifest?.injects?.renderer ?? "");
@@ -118,7 +118,7 @@ function loadAllPlugin() {
     const dependencies = new Set();
     for (const { pathname, manifest} of plugins) {
         output("Found Plugin:", manifest.name);
-        LiteLoader.plugins[manifest.slug] = getPluginInfo(pathname, manifest);
+        LegacyLoader.plugins[manifest.slug] = getPluginInfo(pathname, manifest);
         manifest.dependencies?.forEach?.(slug => dependencies.add(slug));
     }
     const slugs = plugins.map(plugin => plugin.manifest.slug);

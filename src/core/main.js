@@ -1,6 +1,6 @@
 const { pathToFileURL } = require("url");
 
-const error = (...args) => console.error("\x1b[32m%s\x1b[0m", "[LiteLoader]", ...args);
+const error = (...args) => console.error("\x1b[32m%s\x1b[0m", "[LegacyLoader]", ...args);
 
 function topologicalSort(dependencies) {
     const sorted = [];
@@ -8,7 +8,7 @@ function topologicalSort(dependencies) {
     const visit = (slug) => {
         if (visited.has(slug)) return;
         visited.add(slug);
-        const plugin = LiteLoader.plugins[slug];
+        const plugin = LegacyLoader.plugins[slug];
         plugin.manifest.dependencies?.forEach(depSlug => visit(depSlug));
         sorted.push(slug);
     }
@@ -23,8 +23,8 @@ exports.MainLoader = class {
 
     init() {
         // 加载插件
-        for (const slug of topologicalSort(Object.keys(LiteLoader.plugins))) {
-            const plugin = LiteLoader.plugins[slug];
+        for (const slug of topologicalSort(Object.keys(LegacyLoader.plugins))) {
+            const plugin = LegacyLoader.plugins[slug];
             if (plugin.disabled || plugin.incompatible) {
                 continue;
             }

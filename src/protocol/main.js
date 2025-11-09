@@ -31,8 +31,8 @@ exports.protocolRegister = (protocol) => {
             const { host, pathname } = new URL(decodeURI(req.url));
             const filepath = path.normalize(pathname.slice(1));
             switch (host) {
-                case "root": return net.fetch(`file:///${LiteLoader.path.root}/${filepath}`);
-                case "profile": return net.fetch(`file:///${LiteLoader.path.profile}/${filepath}`);
+                case "root": return net.fetch(`file:///${LegacyLoader.path.root}/${filepath}`);
+                case "profile": return net.fetch(`file:///${LegacyLoader.path.profile}/${filepath}`);
                 default: return net.fetch(`file://${host}/${filepath}`);
             }
         });

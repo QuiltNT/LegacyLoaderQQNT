@@ -118,5 +118,3 @@ function watchComponentUnmount(component) {
         }
     });
 }
-
-try {await import('./uno/renderer.js');} catch {}
