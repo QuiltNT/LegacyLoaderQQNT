@@ -1,24 +1,19 @@
 <div align="center">
 
 # LegacyLoaderQQNT
-### [安装教程](./docs/install.md)
-[![](https://img.shields.io/badge/查看-计划表-green?style=flat
-)](./TODO.md)
-[![](https://img.shields.io/badge/查阅-贡献教程-hotpink?style=flat)](./CONTRIBUTING.md)
+[![license](https://img.shields.io/github/license/QuiltNT/LegacyLoaderQQNT?color=darkblue)](./LICENSE)
+[![version](https://img.shields.io/github/v/release/QuiltNT/LegacyLoaderQQNT?color=darkblue&logo=github)](https://github.com/QuiltNT/LegacyLoaderQQNT/releases/latest)
+[![downloads](https://img.shields.io/github/downloads/QuiltNT/LegacyLoaderQQNT/total?logo=github)](https://github.com/QuiltNT/LegacyLoaderQQNT/releases/latest)
+[![discord](https://img.shields.io/discord/1330869137580494939?logo=discord&logoColor=%23fff&color=darkblue)](https://discord.gg/pv9NKPSsYZ)
+
+[LiteLoaderQQNT](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT) 非官方版本，基于 LiteLoaderQQNT 二次开发
+
 </div>
+<br>
 
----
+> [!WARNING]  
+> LegacyLoaderQQNT 并没有防封措施  
+> 使用 LegacyLoader 请自行承担风险
 
-> [!WARNING]
-> LegacyLoaderQQNT 并没有防封措施, 使用 LegacyLoader 请自行承担风险
->
-> 关于封禁问题详情见 [LLQQNT 官网](https://liteloaderqqnt.github.io/guide/introduction.html#警告2)
-
----
-
-> [!NOTE]
+> [!NOTE]  
 > 请不要在国内影响力较大的社交平台提及本项目和上游项目
-
----
-
-LiteLoaderQQNT 非官方版本，基于 LiteLoaderQQNT 二次开发，遵循上游版本的开源协议
