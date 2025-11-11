@@ -28,6 +28,6 @@ function runPreloadScript(content) {
 
 // 加载插件 Preload
 (async () => {
-    runPreloadScript(await (await fetch(`local://root/src/liteloader_api/preload.js`)).text());
-    runPreloadScript(await (await fetch(`local://root/src/loader_core/preload.js`)).text());
+    runPreloadScript(await (await fetch(`local://root/src/api/preload.js`)).text());
+    runPreloadScript(await (await fetch(`local://root/src/core/preload.js`)).text());
 })();

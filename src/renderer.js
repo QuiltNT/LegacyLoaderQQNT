@@ -1,7 +1,7 @@
 import "./components/renderer.js";
 import "./easter_eggs/renderer.js";
 import { SettingInterface } from "./settings/renderer.js";
-import { RendererLoader } from "./loader_core/renderer.js";
+import { RendererLoader } from "./core/renderer.js";
 
 
 const loader = await new RendererLoader().init();
