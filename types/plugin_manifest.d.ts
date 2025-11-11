@@ -28,3 +28,5 @@ type PluginManifest = {
 		}
 	}
 }
+
+export default PluginManifest;

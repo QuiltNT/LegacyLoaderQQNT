@@ -26,7 +26,7 @@ interface LegacyLoader {
 		platform: string;
 	},
 	package: {
-		legacyloader: legacyloader_package;
+		legacyloader: typeof legacyloader_package;
 		liteloader: LiteLoaderPackage;
 		qqnt: QQNTPackage;
 	},
@@ -46,20 +46,7 @@ interface LegacyLoader {
 			}
 		}
 	},
-	api: {
-		/**
-		 * Open the given external protocol URL in the desktop's default manner. (For
-		 * example, mailto: URLs in the user's default mail agent).
-		 */
-		openExternal(url: string, options?: Electron.OpenExternalOptions): Promise<void>;
-		/**
-		 * Resolves with a string containing the error message corresponding to the failure
-		 * if a failure occurred, otherwise "".
-		 *
-		 * Open the given file in the desktop's default manner.
-		 */
-		openPath(path: string): Promise<string>;
-	}
+	api: {}
 }
 
 interface LegacyLoaderMain extends LegacyLoader {
@@ -73,6 +60,11 @@ interface LegacyLoaderMain extends LegacyLoader {
 			delete: (slug: string, delete_data?: boolean, undone?: boolean) => boolean;
 			disable: (slug: string, undone?: boolean) => void;
 		},
+		window: {
+			new: (options?: Electron.BrowserWindowConstructorOptions) => Electron.BrowserWindow;
+		},
+		openPath: (path: string) => Promise<string>;
+		openExternal: (url: string, options?: Electron.OpenExternalOptions) => Promise<void>;
 	}
 }
 
@@ -87,6 +79,11 @@ interface LegacyLoaderRenderer extends LegacyLoader {
 			delete: (slug: string, delete_data?: boolean, undone?: boolean) => Promise<boolean>;
 			disable: (slug: string, undone?: boolean) => Promise<void>;
 		},
+		window: {
+			new: (options?: Electron.BrowserWindowConstructorOptions) => Promise<Electron.BrowserWindow>;
+		},
+		openPath: (path: string) => Promise<string>;
+		openExternal: (url: string, options?: Electron.OpenExternalOptions) => Promise<void>;
 	}
 }
 
