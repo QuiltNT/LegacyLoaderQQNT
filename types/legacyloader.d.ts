@@ -1,6 +1,6 @@
 /// <reference path="electron.d.ts" />
 
-import legacyloader_package from '../package.json';
+import type legacyloader_package from '../package.json';
 import LiteLoaderPackage from './packages/liteloader_compat';
 import QQNTPackage from './packages/qqnt';
 
@@ -16,7 +16,8 @@ interface LegacyLoader {
 	versions: {
 		qqnt: string;
 		legacyloader: string;
-		liteloader: '1.3.0-legacyloader_compat';
+		/** @prop {string} liteloader 'x.x.x-legacyloader_compat' */
+		liteloader: string;
 		node: string;
 		chrome: string;
 		electron: string;
@@ -25,7 +26,7 @@ interface LegacyLoader {
 		platform: string;
 	},
 	package: {
-		legacyloader: typeof legacyloader_package;
+		legacyloader: legacyloader_package;
 		liteloader: LiteLoaderPackage;
 		qqnt: QQNTPackage;
 	},
@@ -89,10 +90,14 @@ interface LegacyLoaderRenderer extends LegacyLoader {
 	}
 }
 
+// just for loader dev
+// plugin dev need split main and renderer process
 declare global {
 	const LegacyLoader: LegacyLoaderMain;
+	const LiteLoader: LegacyLoaderMain;
 	interface Window {
 		LegacyLoader: LegacyLoaderRenderer;
+		LiteLoader: LegacyLoaderRenderer;
 	}
 }
 
