@@ -1,5 +1,5 @@
 const default_config = require("../shared/config.json");
-const { ipcMain, shell } = require("electron");
+const { ipcMain, shell, BrowserWindow } = require("electron");
 const path = require("node:path");
 const fs = require("node:fs");
 
@@ -140,6 +140,9 @@ const LegacyLoader = {
             install: pluginInstall,
             delete: pluginDelete,
             disable: pluginDisable
+        },
+        window: {
+            new: (options) => new BrowserWindow(options),
         },
         openExternal: shell.openExternal,
         openPath: shell.openPath
