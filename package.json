@@ -1,9 +1,16 @@
 {
   "name": "legacyloader",
   "version": "1.0.0",
+  "webui_version": "0.1.0-alpha.1",
   "description": "LegacyLoaderQQNT 是一个基于 LiteLoaderQQNT 非官方版二次开发的 QQNT 插件加载器",
   "main": "./src/main.js",
   "private": true,
+  "scripts": {
+    "build": "",
+    "webui:dev": "vite",
+    "webui:build": "vite build",
+    "webui:preview": "vite preview"
+  },
   "license": "MIT",
   "author": {
     "name": "QuiltNT",
@@ -24,5 +31,24 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/QuiltNT/LegacyLoaderQQNT.git"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/vue-fontawesome": "^3.1.2",
+    "@types/node": "^24.10.0",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "sass-embedded": "^1.93.3",
+    "typescript": "^5.9.3",
+    "v-dialogs": "^3.1.1",
+    "vite": "^7.2.2",
+    "vue": "^3.5.24",
+    "vue-router": "^4.6.3"
+  },
+  "packageManager": "pnpm@10.21.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

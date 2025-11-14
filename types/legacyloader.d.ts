@@ -48,7 +48,8 @@ interface LegacyLoader {
 			}
 		}
 	},
-	api: {}
+	api: {},
+	open_webui(): void
 }
 
 interface LegacyLoaderMain extends LegacyLoader {

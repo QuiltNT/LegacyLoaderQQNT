@@ -1,16 +1,16 @@
 // 导入组件
-import { Section } from "./elements/section.js";
-import { Panel } from "./elements/panel.js";
-import { List } from "./elements/list.js";
-import { Item } from "./elements/item.js";
-import { Select } from "./elements/select.js";
-import { Option } from "./elements/option.js";
-import { Switch } from "./elements/switch.js";
-import { Button } from "./elements/button.js";
-import { Text } from "./elements/text.js";
-import { Link } from "./elements/link.js";
-import { Divider } from "./elements/divider.js";
-import { Modal } from "./elements/modal.js";
+import { Section } from "../elements/section.js";
+import { Panel } from "../elements/panel.js";
+import { List } from "../elements/list.js";
+import { Item } from "../elements/item.js";
+import { Select } from "../elements/select.js";
+import { Option } from "../elements/option.js";
+import { Switch } from "../elements/switch.js";
+import { Button } from "../elements/button.js";
+import { Text } from "../elements/text.js";
+import { Link } from "../elements/link.js";
+import { Divider } from "../elements/divider.js";
+import { Modal } from "../elements/modal.js";
 
 // 注册所有组件
 function registerAll(elements) {

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src/web/",
+    "composite": true,
+    "strict": true,
+    "module": "esnext",
+    "target": "esnext",
+
+    "lib": ["esnext", "dom"],
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "views/**/*.vue"]
+}

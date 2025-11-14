@@ -1,6 +1,4 @@
-import "./components/renderer.js";
-import "./easter_eggs/renderer.js";
-import { SettingInterface } from "./settings/renderer.js";
+// import { SettingInterface } from "./settings/renderer.js";
 import { RendererLoader } from "./core/renderer.js";
 
 
@@ -44,10 +42,19 @@ function watchURLHash(callback) {
 // 指定页面触发
 watchURLHash((currentHash) => {
     if (currentHash.includes("#/setting")) {
-        const settingInterface = new SettingInterface();
-        findElement(".setting-tab .nav-bar", () => {
-            settingInterface.SettingInit();
-            loader.onSettingWindowCreated(settingInterface);
+        // const settingInterface = new SettingInterface();
+        // findElement(".setting-tab .nav-bar", () => {
+        //     settingInterface.SettingInit();
+        //     loader.onSettingWindowCreated(settingInterface);
+        // });
+
+        findElement(".setting-tab .nav-bar", (element) => {
+            const tab = element.firstElementChild.cloneNode(true);
+            tab.querySelector('.name').textContent = `LegacyLoader ${LegacyLoader.versions.legacyloader}`;
+            tab.addEventListener('click', () => {
+                LegacyLoader.open_webui();
+            });
+            element.appendChild(tab);
         });
     }
 });

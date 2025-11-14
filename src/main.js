@@ -62,4 +62,18 @@ require.cache["electron"] = new Proxy(require.cache["electron"], {
     const main_path = './application.asar/app_launcher/index.js';
     require(require("path").join(process.resourcesPath, "app", main_path));
     setImmediate(() => global.launcher.installPathPkgJson.main = main_path);
+
+    const { BrowserWindow, ipcMain } = require("electron");
+
+    ipcMain.on('LegacyLoader.open_webui', (event) => {
+        const win = new BrowserWindow({
+            autoHideMenuBar: true,
+            width: 1024,
+            height: 768,
+        });
+        win.loadFile(LegacyLoader.path.webui);
+        win.webContents.setWindowOpenHandler(details => {
+            win.loadURL(details.url)
+        });
+    });
 })();

@@ -1,4 +1,5 @@
 {
+    "check_update": true,
     "enable_plugins": true,
     "disabled_plugins": [],
     "deleting_plugins": {},

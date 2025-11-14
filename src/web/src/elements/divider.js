@@ -1,4 +1,4 @@
-import { BaseElement } from "../element.js";
+import { BaseElement } from "../components/element.js";
 
 
 export class Divider extends BaseElement {

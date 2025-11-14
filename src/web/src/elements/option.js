@@ -1,4 +1,4 @@
-import { BaseElement } from "../element.js";
+import { BaseElement } from "../components/element.js";
 
 
 export class Option extends BaseElement {

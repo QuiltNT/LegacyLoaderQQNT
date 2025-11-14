@@ -22,7 +22,8 @@ const LegacyLoader = {
         },
         openExternal: (...args) => invokeAPI("openExternal", "openExternal", args),
         openPath: (...args) => invokeAPI("openPath", "openPath", args)
-    }
+    },
+    open_webui: () => ipcRenderer.send('LegacyLoader.open_webui')
 }
 
 Object.defineProperties(globalThis, {
