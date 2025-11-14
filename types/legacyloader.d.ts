@@ -12,6 +12,7 @@ interface LegacyLoader {
 		profile: string;
 		data: string;
 		plugins: string;
+		webui: string;
 	},
 	versions: {
 		qqnt: string;
@@ -35,6 +36,7 @@ interface LegacyLoader {
 			manifest: PluginManifest;
 			incompatible: boolean;
 			disabled: boolean;
+			error: Error | null;
 			path: {
 				plugin: string;
 				data: string;
@@ -60,9 +62,6 @@ interface LegacyLoaderMain extends LegacyLoader {
 			delete: (slug: string, delete_data?: boolean, undone?: boolean) => boolean;
 			disable: (slug: string, undone?: boolean) => void;
 		},
-		window: {
-			new: (options?: Electron.BrowserWindowConstructorOptions) => Electron.BrowserWindow;
-		},
 		openPath: (path: string) => Promise<string>;
 		openExternal: (url: string, options?: Electron.OpenExternalOptions) => Promise<void>;
 	}
@@ -79,9 +78,6 @@ interface LegacyLoaderRenderer extends LegacyLoader {
 			delete: (slug: string, delete_data?: boolean, undone?: boolean) => Promise<boolean>;
 			disable: (slug: string, undone?: boolean) => Promise<void>;
 		},
-		window: {
-			new: (options?: Electron.BrowserWindowConstructorOptions) => Promise<Electron.BrowserWindow>;
-		},
 		openPath: (path: string) => Promise<string>;
 		openExternal: (url: string, options?: Electron.OpenExternalOptions) => Promise<void>;
 	}
@@ -89,13 +85,13 @@ interface LegacyLoaderRenderer extends LegacyLoader {
 
 // just for loader dev
 // plugin dev need split main and renderer process
-declare global {
-	const LegacyLoader: LegacyLoaderMain;
-	const LiteLoader: LegacyLoaderMain;
-	interface Window {
-		LegacyLoader: LegacyLoaderRenderer;
-		LiteLoader: LegacyLoaderRenderer;
-	}
-}
+// declare global {
+// 	const LegacyLoader: LegacyLoaderMain;
+// 	const LiteLoader: LegacyLoaderMain;
+// 	interface Window {
+// 		LegacyLoader: LegacyLoaderRenderer;
+// 		LiteLoader: LegacyLoaderRenderer;
+// 	}
+// }
 
 export { LegacyLoaderMain, LegacyLoaderRenderer };
