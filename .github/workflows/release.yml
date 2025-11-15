@@ -12,35 +12,36 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          submodules: true
-          fetch-depth: 0
+          fetch-depth: 1
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: build webui
+        run: |
+          npm install
+          npm run webui:build
+          rm -rf src/web
+          rm -rf node_modules
       - name: archive
         uses: TheDoctor0/zip-release@0.7.6
         with:
           type: 'zip'
           filename: 'LegacyLoaderQQNT.zip'
-          exclusions: '*.zip *.git* CONTRIBUTING.md TODO.md *uno_api/LICENSE *uno_api/README.md docs/*'
-      - name: archive-lite
-        uses: TheDoctor0/zip-release@0.7.6
-        with:
-          type: 'zip'
-          filename: 'LegacyLoaderQQNT.lite.zip'
-          exclusions: '*.zip *.git* CONTRIBUTING.md TODO.md *uno*/* *builtin_plugins/* docs/*'
-      - name: changelog
+          exclusions: '*.zip *.git* CONTRIBUTING.md TODO.md tsconfig.json jsconfig.json vite.config.js'
+      - name: generate changelog
         env:
           filename: 'CHANGELOG.md'
         run: |
           echo "## 更新内容:" >> ${{ env.filename }}
           git log --pretty=format:'- %s by @%an' --grep '^(. )?(fix|feat|perf|sync)(\(.+\))?:' -E $(git describe --tags --abbrev=0 ${{ github.ref_name }}^)..${{ github.ref_name }} >> ${{ env.filename }}
           echo -e '\n\n**完整更新日志**: https://github.com/${{ github.repository }}/compare/'$(git describe --tags --abbrev=0 ${{ github.ref_name }}^)'...${{ github.ref_name }}' >> ${{ env.filename }}
-          echo -e '\n\n## 下载说明:\n\n- **LegacyLoaderQQNT.zip**: 完整版(包含完整的 uno 功能以及 [UnoApi](https://github.com/LateDreamXD/LLQQNT-uno_api) 插件)\n- **LegacyLoaderQQNT.lite.zip**: 精简版(仅包含对于官方版的版本适配更新)' >> ${{ env.filename }}
           echo '🕘 changelog generated at ${{ env.filename }}'
       - name: release
         uses: ncipollo/release-action@v1.16.0
         with:
-          artifacts: 'LegacyLoaderQQNT.zip,LegacyLoaderQQNT.lite.zip'
+          artifacts: 'LegacyLoaderQQNT.zip'
           token: ${{ secrets.GITHUB_TOKEN }}
-          discussionCategory: 'releases'
           makeLatest: ${{ contains(github.ref_name, 'pre') == false }}
           prerelease: ${{ contains(github.ref_name, 'pre') }}
           name: LegacyLoaderQQNT v${{ github.ref_name }}
