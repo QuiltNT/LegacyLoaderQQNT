@@ -15,9 +15,7 @@ export class List extends BaseElement {
         return /*html*/ `
             <setting-item data-direction="row" class="hidden">
                 <h2></h2>
-                <svg viewBox="0 0 24 24">
-                    <use xlink:href="/_upper_/resource/icons/arrow_down_24.svg#arrow_down_24"></use>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" fill="currentColor"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
             </setting-item>
             <slot></slot>
         `;
@@ -41,7 +39,7 @@ export class List extends BaseElement {
                 display: block !important;
             }
             :host([is-active]) svg {
-                transform: rotate(-180deg);
+                transform: rotate(90deg);
             }
             svg {
                 width: 1rem;

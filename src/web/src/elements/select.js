@@ -50,7 +50,7 @@ export class Select extends BaseElement {
                 <div class="menu-button">
                     <input type="text" readonly spellcheck="false" placeholder="请选择">
                     <svg viewBox="0 0 16 16">
-                        <use xlink:href="/_upper_/resource/icons/arrow_down_small_16.svg#arrow_down_small_16"></use>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" fill="currentColor"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
                     </svg>
                 </div>
                 <ul class="hidden">
@@ -68,8 +68,7 @@ export class Select extends BaseElement {
             }
             .select {
                 width: 100%;
-                color: var(--text_primary);
-                font-size: 12px;
+                font-size: 0.8em;
                 position: relative;
                 z-index: inherit;
                 & .menu-button {
@@ -120,7 +119,7 @@ export class Select extends BaseElement {
                 flex-direction: column;
                 gap: 4px;
                 list-style: none;
-                font-size: 12px;
+                font-size: 0.8em;
                 background-color: var(--blur_middle_standard);
                 background-clip: padding-box;
                 border-radius: 4px;

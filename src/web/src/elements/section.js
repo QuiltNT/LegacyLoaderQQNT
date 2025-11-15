@@ -17,10 +17,9 @@ export class Section extends BaseElement {
     getStyles() {
         return /*css*/ `
             h1 {
-                color: var(--text_primary);
-                font-weight: var(--font-bold);
-                font-size: min(var(--font_size_3), 18px);
-                line-height: min(var(--line_height_3), 24px);
+                font-weight: bold;
+                font-size: 1em;
+                line-height: 1.5em;
                 padding: 0px 16px;
                 margin-top: 0;
                 margin-bottom: 8px;

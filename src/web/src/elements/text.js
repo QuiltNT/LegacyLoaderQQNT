@@ -23,9 +23,9 @@ export class Text extends BaseElement {
                 overflow: hidden;
             }
             :host([data-type="secondary"]) slot {
-                color: var(--text_secondary);
-                font-size: min(var(--font_size_2), 16px);
-                line-height: min(var(--line_height_2), 22px);
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 0.8rem;
+                line-height: 1rem;
                 margin-top: 4px;
             }
         `;

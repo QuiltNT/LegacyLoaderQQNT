@@ -17,38 +17,41 @@ export class Switch extends BaseElement {
     getStyles() {
         return /*css*/ `
             :host {
-                background-color: var(--fill_standard_primary);
-                border-radius: 14px;
-                box-sizing: border-box;
-                display: inline-flex;
-                position: relative;
-                transition-duration: 0.2s;
-                transition-timing-function: cubic-bezier(0.38, 0, 0.24, 1);
-                transition-delay: 0s;
-                transition-property: all;
-                width: 28px;
-                padding: 3px;
+                --pico-background-color: var(--pico-switch-background-color);
+                --pico-color: var(--pico-switch-color);
+                width: 2.25em;
+                height: 1.25em;
+                border-top-left-radius: 1.25em;
+                border-top-right-radius: 1.25em;
+                border-bottom-right-radius: 1.25em;
+                border-bottom-left-radius: 1.25em;
+                background-color: var(--pico-background-color);
+                line-height: 1.25em;
+                border: var(--pico-border-width) solid var(--pico-border-color);
             }
             :host([is-active]) {
-                background-color: var(--brand_standard);
+                --pico-background-color: var(--pico-switch-checked-background-color);
+                --pico-border-color: var(--pico-switch-checked-background-color);
+                background-image: none;
             }
             :host([is-active]) span {
-                transform: translate(12px);
+                transform: translate(1em);
             }
             span {
-                border-radius: 5px;
+                border-radius: 100%;
                 box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 4px;
                 box-sizing: border-box;
                 display: inline-block;
-                height: 10px;
+                width: 1em;
+                height: 1em;
                 position: relative;
+                transform: translate(0.25em);
                 transition-duration: 0.2s;
                 transition-timing-function: cubic-bezier(0.38, 0, 0.24, 1);
                 transition-delay: 0s;
                 transition-property: all;
-                width: 10px;
                 z-index: 2;
-                background: var(--icon_white);
+                background: #fff;
             }
         `;
     }
