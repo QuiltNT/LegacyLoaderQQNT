@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// @ts-nocheck
-import { ref, onMounted, useTemplateRef } from 'vue';
+import { ref, onMounted, onBeforeUnmount, useTemplateRef } from 'vue';
 import settings from '../utils/settings';
 
 const props = defineProps({
@@ -10,17 +9,26 @@ const props = defineProps({
 	}
 });
 
-const enable = ref(!settings.get().disabled_plugins.includes(props.plugin.manifest.slug));
-const uninstall = ref(!!settings.get().deleting_plugins?.[props.plugin.manifest.slug]);
-const keep_data = ref(!!settings.get().deleting_plugins?.[props.plugin.manifest.slug]?.data_path);
+const config = {
+	_not_chage: ref(true),
+	enable: ref(false),
+	uninstall: ref(false),
+	keep_data: ref(false)
+}
 
 function apply() {
-	LegacyLoader.api.plugin.disable(props.plugin.manifest.slug, !enable.value);
-	LegacyLoader.api.plugin.delete(props.plugin.manifest.slug, !keep_data.value, !uninstall.value);
+	LegacyLoader.api.plugin.disable(props.plugin.manifest.slug, config.enable.value);
+	LegacyLoader.api.plugin.delete(props.plugin.manifest.slug, !config.keep_data.value, !config.uninstall.value);
+	config._not_chage.value = true;
 }
 
 const view = useTemplateRef('view');
 onMounted(async() => {
+	config.enable.value = !(await settings.get()).disabled_plugins.includes(props.plugin.manifest.slug);
+	config.uninstall.value = !!(await settings.get()).deleting_plugins?.[props.plugin.manifest.slug]?.uninstall;
+	config.keep_data.value = !!(await settings.get()).deleting_plugins?.[props.plugin.manifest.slug]?.data_path;
+
+	// @ts-ignore
 	await import('./renderer.js');
 	if(props.plugin.error) {
 		const error = props.plugin.error;
@@ -39,29 +47,32 @@ onMounted(async() => {
 		return;
 	}
 	if(props.plugin.path?.injects?.renderer)
-		if(enable.value) (await import(`local:///${props.plugin.path.injects.renderer}`)).onSettingWindowCreated?.(view.value);
+		if(config.enable.value)
+			import(`local:///${props.plugin.path.injects.renderer}`)
+				.then(module => module.onSettingWindowCreated?.(view.value))
+				.catch((e: Error) => view.value!.innerHTML = `<i style="color: grey;">- 设置页加载出错：${e.message} -</i>`);
 		else view.value!.innerHTML = '<i style="color: grey;">- 该插件已被禁用 -</i>';
 	else view.value!.innerHTML = '<i style="color: grey;">- 该插件未提供设置页 -</i>';
-})
+});
 </script>
 
 <template>
 <div class="view" style="padding: 0.8rem;">
 	<div class="manage-panel">
 		<div class="setting-item">
-			<input type="checkbox" role="switch" id="enable" v-model="enable" />
+			<input type="checkbox" role="switch" id="enable" v-model="config.enable.value" @click="config._not_chage.value = false" />
 			<label for="enable">启用该插件</label>
 		</div>
 		<div class="setting-item">
-			<input type="checkbox" role="switch" id="uninstall" v-model="uninstall" />
+			<input type="checkbox" role="switch" id="uninstall" v-model="config.uninstall.value" @click="config._not_chage.value = false" />
 			<label for="uninstall">下次启动时卸载</label>
 		</div>
 		<div class="setting-item">
-			<input type="checkbox" role="switch" id="keep-data" v-model="keep_data" />
+			<input type="checkbox" role="switch" id="keep-data" v-model="config.keep_data.value" @click="config._not_chage.value = false" />
 			<label for="keep-data">卸载时保留数据</label>
 		</div>
 		<div class="setting-item">
-			<button type="button" @click="apply">应用</button>
+			<button type="button" @click="apply" :disabled="config._not_chage.value">应用</button>
 		</div>
 	</div>
 

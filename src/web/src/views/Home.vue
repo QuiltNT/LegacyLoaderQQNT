@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, h } from 'vue';
+import { ref, h, onMounted } from 'vue';
 import { getSettings } from '../utils/settings';
 import checkUpdate from '../utils/check_update';
 import { DialogAlert, DialogAlertConfirm } from 'v-dialogs';
@@ -58,7 +58,9 @@ const checkUpdateHandler = (check_update_button: HTMLButtonElement | EventTarget
 	});
 }
 
-(getSettings().check_update) && checkUpdate();
+onMounted(async () => {
+	((await getSettings()).check_update) && checkUpdate();
+});
 </script>
 
 <template>
