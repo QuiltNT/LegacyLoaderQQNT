@@ -39,8 +39,9 @@ onMounted(async() => {
 		return;
 	}
 	if(props.plugin.path?.injects?.renderer)
-		(await import(`local:///${props.plugin.path.injects.renderer}`)).onSettingWindowCreated?.(view.value);
-	else view.value!.innerHTML = '该插件未提供设置页';
+		if(enable.value) (await import(`local:///${props.plugin.path.injects.renderer}`)).onSettingWindowCreated?.(view.value);
+		else view.value!.innerHTML = '<i style="color: grey;">- 该插件已被禁用 -</i>';
+	else view.value!.innerHTML = '<i style="color: grey;">- 该插件未提供设置页 -</i>';
 })
 </script>
 
