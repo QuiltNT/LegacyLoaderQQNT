@@ -60,9 +60,8 @@ const PluginCard = defineComponent({
 			h(faIcon, { icon: 'gear', style: { title: '插件设置', position: 'absolute', top: '0.5rem', right: '0.5rem' }, onClick: () => props.openPlugin(props.plugin) }),
 			h('img', {
 				class: 'plugin-icon',
-				src: `local:///${props.plugin.path.plugin}${props.plugin.manifest.icon?.replace('./', '/')}` || props.defaultIcon,
-				alt: props.plugin.manifest.name + '图标',
-				loading: 'lazy'
+				src: props.plugin.manifest.icon? `local:///${props.plugin.path.plugin}${props.plugin.manifest.icon?.replace('./', '/')}`: props.defaultIcon,
+				alt: props.plugin.manifest.name + '图标'
 			}),
 			h('div', { class: 'plugin-info' }, [
 				h('h4', { class: `plugin-name ${props.plugin.disabled ? 'disabled' : ''} ${props.plugin.error ? 'error' : ''} ${props.plugin.incompatible ? 'incompatible' : ''}`, title: props.plugin.manifest.name }, [
@@ -284,6 +283,11 @@ const openPlugin = (plugin: typeof plugins.value[0]) => {
 			background-color: var(--pico-form-element-invalid-active-border-color);
 			color: white;
 		}
+
+		&.disabled {
+			background-color: var(--pico-muted-color);
+			color: #fff;
+		}
 	}
 
 	.repo-badge {
@@ -301,7 +305,7 @@ const openPlugin = (plugin: typeof plugins.value[0]) => {
 			color: #fff;
 		}
 		&::after {
-			content: attr(title);
+			content: '访问仓库';
 			display: inline-block;
 			width: fit-content;
 			height: fit-content;
